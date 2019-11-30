@@ -23,5 +23,5 @@ def hello_name(username):
     return str(username)
 
 if __name__ == '__main__':
-    app.debug = True
+    # app.debug = True
     app.run()
