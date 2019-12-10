@@ -3,3 +3,5 @@ pip_modules
 
 node_modules
 *.db
+heroku
+heroku_dev
