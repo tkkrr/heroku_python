@@ -1,0 +1,35 @@
+{
+    "name": "frontend",
+    "version": "1.0.0",
+    "description": "> A Vue.js project",
+    "main": "index.js",
+    "dependencies": {
+        "vue": "^2.6.10",
+        "webpack": "^4.41.2"
+    },
+    "devDependencies": {
+        "@babel/core": "^7.7.5",
+        "@babel/preset-env": "^7.7.6",
+        "babel-loader": "^8.0.6",
+        "copy-webpack-plugin": "^5.1.0",
+        "css-loader": "^3.3.0",
+        "style-loader": "^1.0.1",
+        "vue-loader": "^15.7.2",
+        "sass-loader": "^8.0.0",
+        "node-sass": "^4.13.0",
+        "vue-template-compiler": "^2.6.10",
+        "webpack-cli": "^3.3.10"
+    },
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1",
+        "start": "webpack-dev-server --hot",
+        "build": "webpack -p"
+    },
+    "author": "Rei_Takakura",
+    "license": "ISC",
+    "babel": {
+        "presets": [
+            "@babel/preset-env"
+        ]
+    }
+}
