@@ -16,7 +16,9 @@ export default {
     methods: {
       getDeltaDate(date, delta) { return getDeltaDate(date, delta) },
       handleInputChange() {
-        this.start_date = new Date( document.querySelector("input[name='start_date']").value )
+        const start_date = new Date( document.querySelector("input[name='start_date']").value )
+        if( start_date.toString() ==  "Invalid Date") this.start_date = new Date()
+        else this.start_date = start_date
       }
     }
 }
@@ -77,15 +79,15 @@ const getDeltaDate = (date, delta) => {
       <table>
         <tr>
           <td><label for="name">名前</label></td>
-          <td><input type="text" name="name" placeholder="筑波 太郎"/></td>
+          <td><input type="text" name="name" placeholder="筑波 太郎" required/></td>
         </tr> 
         <tr>
           <td><label for="start_date">記録開始日</label></td>
-          <td><input type="date" name="start_date" v-bind:value="start_date | getDateString" @change="handleInputChange" /></td>
+          <td><input type="date" name="start_date" v-bind:value="start_date | getDateString" @change="handleInputChange" required/></td>
         </tr>
 
         <tr v-for="n of 7" :key="n">
-            <td><label for="week_journal">{{ getDeltaDate(start_date, n-1) | getWeekString }}</label></td>
+            <td><label v-bind:for="n | weekName">{{ getDeltaDate(start_date, n-1) | getWeekString }}</label></td>
             <td><input type="text" v-bind:name="n | weekName" placeholder="e.g., 研究, 就活, バイト"/></td>
         </tr>
 

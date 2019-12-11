@@ -70,22 +70,22 @@ def add_entry():
     '''
     journalの情報をmongoDBに保存する．
     '''
+    name = request.form['name'] if request.form['name'] != "" else "John Doe"
+    start_date = parse( request.form['start_date'] ) if request.form['start_date'] != "" else datetime.now()
+    journal = request.form['journal'] if request.form['journal'] != "" else "特になし"
+    week_journal = []
+    for i in range(1,8):
+        tmp = request.form[f'week{i}'] if request.form[f'week{i}'] != "" else "特になし",
+        week_journal += tmp
+
     mongo.db.user.insert({
-        "name": request.form['name'],
-        "start_date": parse(request.form['start_date']),
+        "name": name,
+        "start_date": start_date,
         "create_date": datetime.now(),
-        "week_journal": [
-            request.form['week1'],
-            request.form['week2'],
-            request.form['week3'],
-            request.form['week4'],
-            request.form['week5'],
-            request.form['week6'],
-            request.form['week7']
-        ],
-        "journal": request.form['journal']
+        "week_journal": week_journal,
+        "journal": journal
     })
-    return redirect(url_for('show_entry'))
+    return redirect(url_for('index'))
 
 
 @app.route('/api/select/<string:id>', methods=["GET"])
@@ -124,9 +124,9 @@ def filter_entry():
     return "success!!"
 
 
-# @app.errorhandler(404)
-# def error_handler(error):
-#     return "Oops!! Something wrong..."
+@app.errorhandler(404)
+def error_handler(error):
+    return "Oops!! Something wrong..."
 
 if __name__ == '__main__':
     # app.debug = True
