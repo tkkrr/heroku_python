@@ -28,25 +28,24 @@ def _create_pdf(content):
     }
 
     html = '''
-    <html lang="ja"><meta charset="utf-8">
+    <html lang="ja">
+    <head>
+        <meta charset="utf-8"/>
+        <title>週間ジャーナル</title>
+    </head>
     <body>
-    <div class="container">
-        <header class="under-line">
-            <span class="headding">週間ジャーナル</span>
-            <span class="right light">'''
-    html += '作成日：' + str(content["create_date"].year) +'年' + str(content["create_date"].month)+'月' + str(content["create_date"].day) +'日'  + '<br/>作成者：' + content["name"]
-    html += '''
-    </span></header>
-    <style>'''
-    
-    html += '''
+    <style>
+        @import url('https://fonts.googleapis.com/css?family=Noto+Sans+JP&display=swap&subset=japanese');
+        
+        * {
+            font-family: 'Noto Sans JP', sans-serif;
+        }
+
         html,body{
             height:297mm;
             width:210mm;
-            font-family: 'Avenir','Helvetica Neue','Helvetica','Arial','Hiragino Sans','ヒラギノ角ゴシック',YuGothic,'Yu Gothic','メイリオ', Meiryo;
-    }'''
-
-    html += '''
+        }
+        
         .container{
           height: 297mm;
           width: 210mm;
@@ -62,7 +61,6 @@ def _create_pdf(content):
           padding-bottom: 5px;
         }
         .headding{
-          font-weight: 600;
           font-size: 2em;
           width: 80%;
         }
@@ -100,7 +98,17 @@ def _create_pdf(content):
           margin-left: 45px;
           margin-right: 30px;
         }
-        </style>
+    </style>
+    <div class="container">
+        <header class="under-line">
+            <span class="headding">週間ジャーナル</span>
+            <span class="right light">'''
+    html += '作成日：' + str(content["create_date"].year) +'年' + str(content["create_date"].month)+'月' + str(content["create_date"].day) +'日'  + '<br/>作成者：' + content["name"]
+    html += '''
+    </span></header>
+    '''
+    
+    html += '''
         <main>
         <h1>・ジャーナル</h1><ul>
     '''
