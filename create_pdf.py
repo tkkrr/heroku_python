@@ -27,6 +27,8 @@ def _create_pdf(content):
         'dpi': '72'
     }
 
+    fontPath = "/app/.fonts/hirakakuW6.ttc" if os.path.exists("/app/.fonts/hirakakuW6.ttc") else os.path.join(os.getcwd(), ".fonts/hirakakuW6.ttc")
+
     html = '''
     <html lang="ja">
     <head>
@@ -34,13 +36,21 @@ def _create_pdf(content):
         <title>週間ジャーナル</title>
     </head>
     <body>
-    <style>
-        @import url('https://fonts.googleapis.com/css?family=Noto+Sans+JP&display=swap&subset=japanese');
-        
-        * {
-            font-family: 'Noto Sans JP', sans-serif;
-        }
+    '''
 
+    html += f'''
+    <style>
+        @font-face{{
+            font-family:'hirakakuW6';
+            src: url({ fontPath }) format('truetype');
+        }}
+
+        * {{
+            font-family: 'hirakakuW6', sans-serif;
+        }}
+    '''
+    
+    html += '''
         html,body{
             height:297mm;
             width:210mm;

@@ -6,7 +6,7 @@ import os
 
 from create_pdf import _create_pdf
 
-app = Flask(__name__, static_folder='./frontend/dist', static_url_path="/", template_folder="./frontend/dist")
+app = Flask(__name__, template_folder="./frontend/dist")
 
 app.config["MONGO_URI"] = os.getenv("MONGODB_URI", "mongodb://localhost:27017/testdb")
 mongo = PyMongo(app)
