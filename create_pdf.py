@@ -9,11 +9,23 @@ def _create_pdf(content):
 
     Parameters
     -----
-    content.date : date
-    content.name : str
-    content.journal : str
+    content["create_date"] : datetime.datetime
+      記録の作成日
+
+    content["start_date"] : datetime.datetime
+      記録の開始日
+
+    content["name"] : str
+      作成者名
+
+    content["journal"] : str
+      週間ジャーナル総括（所感・来週までの感想）
+
+    content["week_journal"] : [str]
+      週間ジャーナル（各日）．日付の開始日はcontent["start_date"]に依存する．
     '''
 
+    # pdfkit configuration
     config = pdfkit.configuration(wkhtmltopdf=os.getenv("PATH_TO_WKHTMLTOPDF", "/usr/local/bin/wkhtmltopdf"))
 
     options = {
@@ -29,6 +41,7 @@ def _create_pdf(content):
 
     fontPath = "/app/.fonts/hirakakuW6.ttc" if os.path.exists("/app/.fonts/hirakakuW6.ttc") else os.path.join(os.getcwd(), ".fonts/hirakakuW6.ttc")
 
+    # html setting
     html = '''
     <html lang="ja">
     <head>
@@ -38,6 +51,7 @@ def _create_pdf(content):
     <body>
     '''
 
+    # font setting
     html += f'''
     <style>
         @font-face{{
@@ -50,6 +64,7 @@ def _create_pdf(content):
         }}
     '''
     
+    # style setting
     html += '''
         html,body{
             height:297mm;
@@ -118,6 +133,7 @@ def _create_pdf(content):
     </span></header>
     '''
     
+    # main journal
     html += '''
         <main>
         <h1>・ジャーナル</h1><ul>
@@ -127,12 +143,9 @@ def _create_pdf(content):
     for day in range(0,7):
         tmp_day = content["start_date"] + timedelta(days=day)
         html += '<li><div class="li-left">' + str(tmp_day.month) + '/' + str(tmp_day.day) + '（' + weekdayDict[ tmp_day.weekday() ] + '）</div><div>' + content["week_journal"][day] + '</div></li>'
-    
-    html += '</ul><h1>・所感, 次週までの感想</h1><p>'
-    html += content["journal"]
-    html += '</p></main></div></body></html>'
-    
-    # response = make_response( pdfkit.from_string(html, False, options=options, configuration=config) )
+
+    html += '</ul><h1>・所感, 次週に向けての感想</h1><p>' + content["journal"] + '</p></main></div></body></html>'
+
     response = make_response( pdfkit.from_string(html, False, options=options, configuration=config) )
     response.headers['Content-Disposition'] = 'attachment; filename="example.pdf"'
     response.mimetype = 'application/pdf'
