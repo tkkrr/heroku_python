@@ -26,19 +26,6 @@ def hello_world():
     <h1>Hello World!!</h1>
     '''
 
-@app.route('/api/hello')
-def hello(methods = ["GET"]):
-    name = request
-    print(name)
-    # name = request.args.get("name")
-    return '''
-    <p>Hello?</p>
-    '''
-
-@app.route('/api/hello/<int:username>')
-def hello_name(username):
-    return str(username)
-
 
 @app.route('/api/all', methods=['GET'])
 def show_entry():
@@ -120,6 +107,10 @@ def create_pdf_from_db(id):
         "journal": user["journal"]
     }
     return _create_pdf(content)
+
+@app.route('/journal')
+def old_journal_path():
+    return redirect(url_for("index"))
 
 @app.route('/search', methods=['POST'])
 def filter_entry():
