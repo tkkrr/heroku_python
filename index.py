@@ -88,6 +88,16 @@ def add_entry():
     return redirect(url_for('index'))
 
 
+@app.route('/api/delete/<string:id>', methods=['DELETE'])
+def delete_user(id):
+    '''
+    指定したIDのjournalをテーブルから削除する．
+    '''
+    _id = ObjectId(id)
+    user = mongo.db.user.delete_one( {"_id" : _id} )
+    return jsonify({'message': 'delete success'}), 200
+
+
 @app.route('/api/select/<string:id>', methods=["GET"])
 def select_user(id):
     _id = ObjectId(id)
