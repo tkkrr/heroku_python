@@ -18,7 +18,11 @@ module.exports = {
                 loader: 'vue-loader',
                 options: {
                     loaders: {
-                        scss: 'vue-style-loader!css-loader!sass-loader'
+                        scss: 'vue-style-loader!css-loader!postcss-loader!sass-loader'
+                    },
+                    postcss: {
+                        useConfigFile: false,
+                        options: [require('autoprefixer')()]
                     }
                 }
             },
@@ -41,6 +45,7 @@ module.exports = {
     },
     plugins: [
         new VueLoaderPlugin(),
-        new CopyPlugin([{ from: './static' }])
+        new CopyPlugin([{ from: './static' }]),
+        require('autoprefixer')
     ],
 }
